@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Register</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Account</h1>
+      <nav>
+        <a href="index.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="auth.html">Login/Register</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main class="forms-grid">
+      <section>
+        <h2>Register</h2>
+        <form id="register-form">
+          <input type="text" name="name" placeholder="Name" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <input type="text" name="adminCode" placeholder="Admin code (optional)" />
+          <button type="submit">Register</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Login</h2>
+        <form id="login-form">
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+      </section>
+
+      <p id="auth-message"></p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
