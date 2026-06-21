@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Products</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Admin - Manage Products</h1>
+      <nav>
+        <a href="index.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="auth.html">Login/Register</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <form id="product-form" class="admin-form">
+        <input type="text" name="name" placeholder="Product name" required />
+        <input type="url" name="image" placeholder="Image URL" required />
+        <input type="number" name="price" placeholder="Price" min="0" step="0.01" required />
+        <button type="submit">Add Product</button>
+      </form>
+
+      <h2>Existing Products</h2>
+      <ul id="admin-product-list"></ul>
+      <p id="admin-message"></p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
