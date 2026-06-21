@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Product = require('../models/Product');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
 
@@ -30,6 +31,10 @@ router.post('/', protect, adminOnly, async (req, res) => {
 
 router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid product id' });
+    }
+
     const product = await Product.findById(req.params.id);
 
     if (!product) {

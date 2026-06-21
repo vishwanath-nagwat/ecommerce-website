@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const { protect } = require('../middleware/authMiddleware');
@@ -16,6 +17,9 @@ router.post('/cart', protect, async (req, res) => {
 
     if (!productId) {
       return res.status(400).json({ message: 'productId is required' });
+    }
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({ message: 'Invalid productId' });
     }
 
     const product = await Product.findById(productId);
@@ -43,6 +47,10 @@ router.post('/cart', protect, async (req, res) => {
 router.delete('/cart/:productId', protect, async (req, res) => {
   try {
     const { productId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({ message: 'Invalid productId' });
+    }
+
     const user = await User.findById(req.user._id);
 
     user.cart = user.cart.filter((item) => item.product.toString() !== productId);

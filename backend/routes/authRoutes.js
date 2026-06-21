@@ -5,6 +5,12 @@ const User = require('../models/User');
 const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
+const isValidEmail = (email) => {
+  if (!email || email.includes(' ')) return false;
+  const atIndex = email.indexOf('@');
+  const lastDotIndex = email.lastIndexOf('.');
+  return atIndex > 0 && lastDotIndex > atIndex + 1 && lastDotIndex < email.length - 1;
+};
 
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET || 'dev_secret_change_me', {
@@ -19,7 +25,12 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Please provide name, email, and password' });
     }
 
-    const existingUser = await User.findOne({ email });
+    const normalizedEmail = String(email).trim().toLowerCase();
+    if (!isValidEmail(normalizedEmail)) {
+      return res.status(400).json({ message: 'Please provide a valid email' });
+    }
+
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -30,7 +41,7 @@ router.post('/register', async (req, res) => {
 
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       isAdmin,
     });
@@ -58,7 +69,12 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Please provide email and password' });
     }
 
-    const user = await User.findOne({ email });
+    const normalizedEmail = String(email).trim().toLowerCase();
+    if (!isValidEmail(normalizedEmail)) {
+      return res.status(400).json({ message: 'Please provide a valid email' });
+    }
+
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
